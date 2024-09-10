@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>View Songs</title>
+<link rel="stylesheet" href="viewsong.css">
+</head>
+<body>
+<div class="viewsong">
+    <h1>View Songs</h1>
+    <!-- Search box -->
+    <input type="text" id="searchInput" placeholder="Search by name..." onkeyup="searchSongs()">
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Artist</th>
+                <th>Genre</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="Song: ${Song}" class="songRow">
+                <td th:text="${Song.name}"></td>
+                <td th:text="${Song.artist}"></td>
+                <td th:text="${Song.genre}"></td>
+                <td>
+                    <audio controls>
+                        <source th:src="${Song.link}" type="audio/mpeg">
+                    </audio>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+function searchSongs() {
+    // Get input text from the search box
+    var searchText = document.getElementById('searchInput').value.toLowerCase();
+    // Get all song rows
+    var songRows = document.getElementsByClassName('songRow');
+    
+    // Loop through each song row
+    for (var i = 0; i < songRows.length; i++) {
+        var songName = songRows[i].getElementsByTagName('td')[0];
+        // If song name matches search text, display the row; otherwise, hide it
+        if (songName.innerText.toLowerCase().indexOf(searchText) > -1) {
+            songRows[i].style.display = '';
+        } else {
+            songRows[i].style.display = 'none';
+        }
+    }
+}
+</script>
+
+</body>
+</html>
+
